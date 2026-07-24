@@ -82,19 +82,6 @@ def _t(key, lang="ru"):
     return STRINGS.get(lang, STRINGS["ru"]).get(key, key)
 
 
-class CenteredWidget(QWidget):
-    """Widget that centers its single child layout horizontally."""
-    def __init__(self, layout, parent=None):
-        super().__init__(parent)
-        self.setLayout(layout)
-        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-
-    def resizeEvent(self, e):
-        super().resizeEvent(e)
-        if self.layout():
-            self.layout().setGeometry(self.rect())
-
-
 # ── Card ─────────────────────────────────────────────────────────
 
 class Card(QWidget):
@@ -464,11 +451,10 @@ class SettingsWindow(QWidget):
         sbl.setContentsMargins(0, 24, 0, 24)
         sbl.setSpacing(4)
 
-        # Logo — centered horizontally in sidebar
+        # Logo
         lr = QHBoxLayout()
-        lr.setContentsMargins(0, 0, 0, 16)
+        lr.setContentsMargins(20, 0, 0, 16)
         lr.setSpacing(8)
-        lr.addStretch()
         li = QLabel()
         li.setFixedSize(90, 90)
         li.setStyleSheet("background:transparent;border:none;")
@@ -483,8 +469,7 @@ class SettingsWindow(QWidget):
         lt.setStyleSheet(f"color:{T1};background:transparent;border:none;")
         lr.addWidget(lt)
         lr.addStretch()
-        logo_wrap = CenteredWidget(lr)
-        sbl.addWidget(logo_wrap)
+        sbl.addLayout(lr)
 
         L = self._lang
         self._nav = []

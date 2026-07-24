@@ -453,14 +453,14 @@ class SettingsWindow(QWidget):
 
         # Logo
         lr = QHBoxLayout()
-        lr.setContentsMargins(16, 0, 0, 16)
-        lr.setSpacing(8)
+        lr.setContentsMargins(8, 0, 0, 16)
+        lr.setSpacing(4)
         li = QLabel()
-        li.setFixedSize(70, 70)
+        li.setFixedSize(90, 90)
         li.setStyleSheet("background:transparent;border:none;")
         ip = Path(__file__).parent / "assets" / "Applogo.png"
         if ip.exists():
-            px = QPixmap(str(ip)).scaled(QSize(70,70), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            px = QPixmap(str(ip)).scaled(QSize(90,90), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
             li.setPixmap(px)
             li.setAlignment(Qt.AlignmentFlag.AlignCenter)
         lr.addWidget(li)

@@ -453,7 +453,7 @@ class SettingsWindow(QWidget):
 
         # Logo
         lr = QHBoxLayout()
-        lr.setContentsMargins(8, 0, 0, 16)
+        lr.setContentsMargins(4, 0, 0, 16)
         lr.setSpacing(4)
         li = QLabel()
         li.setFixedSize(90, 90)

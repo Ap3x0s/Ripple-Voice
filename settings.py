@@ -19,6 +19,7 @@ class Settings:
     autostart: bool = False
     hotkey: str = "ctrl_r"
     hud_theme: str = "hybrid_v2"  # "google", "google_v2", "hybrid", "hybrid_v2", or "vercel"
+    device: str = "cuda"  # "cuda", "cpu", or "auto"
 
     def load(self) -> "Settings":
         """Load settings from JSON file, create with defaults if missing."""

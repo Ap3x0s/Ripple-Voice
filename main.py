@@ -44,7 +44,7 @@ class RippleVoiceApp:
         print(f"Settings: model={self.settings.model_size}, lang={self.settings.language}, mode={self.settings.trigger_mode}")
 
         self.recorder = AudioRecorder()
-        self.transcriber = Transcriber(model_size=self.settings.model_size)
+        self.transcriber = Transcriber(model_size=self.settings.model_size, device=self.settings.device)
         self.inserter = TextInserter()
         self.hud = create_hud(self.settings.hud_theme)
         print(f"HUD theme: {self.settings.hud_theme}")
@@ -59,6 +59,7 @@ class RippleVoiceApp:
         self._settings_win = None
         self._hud_visible = True
         self._pending_model = None
+        self._pending_device = None
 
         self._q = queue.Queue()
         self.recorder.on_volume = lambda rms: self._q.put(("rms", rms))
@@ -164,7 +165,8 @@ class RippleVoiceApp:
         old_hotkey = old.hotkey
         old_mode = old.trigger_mode
         old_theme = old.hud_theme
-        print(f"[CFG] comparing: model={old_model}→{new_settings.model_size}, lang={old_lang}→{new_settings.language}, ui={old_ui}→{new_settings.ui_language}")
+        old_device = old.device
+        print(f"[CFG] comparing: model={old_model}→{new_settings.model_size}, lang={old_lang}→{new_settings.language}, ui={old_ui}→{new_settings.ui_language}, device={old_device}→{new_settings.device}")
 
         # Speech language change
         if old_lang != new_settings.language:
@@ -193,12 +195,13 @@ class RippleVoiceApp:
             self.hud.hide()
             self.hud = create_hud(new_settings.hud_theme)
 
-        # Model change → reload in background
-        if old_model != new_settings.model_size:
-            print(f"[CFG] model changed: {old_model}→{new_settings.model_size}, reloading...")
+        # Model or device change → reload in background
+        if old_model != new_settings.model_size or old_device != new_settings.device:
+            print(f"[CFG] model/device changed: {old_model}→{new_settings.model_size}, device: {old_device}→{new_settings.device}, reloading...")
             self._cmd("state", HudState.THINKING)
             self._cmd("text", f"Loading {new_settings.model_size}...")
             self._pending_model = new_settings.model_size
+            self._pending_device = new_settings.device
             threading.Thread(target=self._reload_model, daemon=True).start()
 
         # Update live settings reference
@@ -208,13 +211,14 @@ class RippleVoiceApp:
     def _reload_model(self):
         """Reload whisper model in background thread."""
         model_size = self._pending_model
+        device = self._pending_device
         try:
             from transcriber import Transcriber
-            print(f"[CFG] loading model {model_size}...")
-            new_t = Transcriber(model_size=model_size)
+            print(f"[CFG] loading model {model_size} on {device}...")
+            new_t = Transcriber(model_size=model_size, device=device)
             new_t.load_model()
             self.transcriber = new_t
-            print(f"[CFG] model {model_size} loaded OK")
+            print(f"[CFG] model {model_size} on {device} loaded OK")
             self._cmd("text", "")
             self._cmd("state", HudState.IDLE)
         except Exception as e:

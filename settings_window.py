@@ -47,6 +47,7 @@ STRINGS = {
         "model": "Модель Whisper", "model_d": "Размер модели для распознавания речи (точнее — медленнее)",
         "ui_lang": "Язык интерфейса", "ui_lang_d": "Русский или Английский язык меню и надписей",
         "punct": "Пунктуация", "punct_d": "Автоматически расставляет запятые и точки",
+        "device": "Устройство", "device_d": "GPU (CUDA) быстрее, CPU — если нет видеокарты",
         "btn_close": "Закрыть", "btn_save": "Сохранить",
         "period": "Период:", "activity": "Активность по дням", "no_data": "Пока нет данных",
         "sess": "Сессий", "words": "Слов", "chars": "Символов", "wps": "Слов/сессия",
@@ -67,6 +68,7 @@ STRINGS = {
         "model": "Whisper Model", "model_d": "Recognition model size (more accurate — slower)",
         "ui_lang": "Interface Language", "ui_lang_d": "Russian or English for menus and labels",
         "punct": "Punctuation", "punct_d": "Automatically adds commas and periods",
+        "device": "Device", "device_d": "GPU (CUDA) is faster, CPU — if no GPU available",
         "btn_close": "Close", "btn_save": "Save",
         "period": "Period:", "activity": "Daily Activity", "no_data": "No data yet",
         "sess": "Sessions", "words": "Words", "chars": "Characters", "wps": "Words/session",
@@ -592,6 +594,7 @@ class SettingsWindow(QWidget):
             (_t("ui_lang",L), _t("ui_lang_d",L), [_t("lang_ru",L), _t("lang_en",L)], cur_ui),
             (_t("theme",L), _t("theme_d",L), ["hybrid_v2","google","google_v2","hybrid","vercel"], self.settings.hud_theme),
             (_t("model",L), _t("model_d",L), ["tiny","base","small","medium","large-v2","large-v3","turbo"], mm.get(self.settings.model_size,"medium")),
+            (_t("device",L), _t("device_d",L), ["CUDA (GPU)","CPU","Auto"], {"cuda":"CUDA (GPU)","cpu":"CPU","auto":"Auto"}.get(self.settings.device,"CUDA (GPU)")),
         ]
         self._c = []
         for title,desc,items,cur in defs:
@@ -713,6 +716,7 @@ class SettingsWindow(QWidget):
         self.settings.ui_language = "ru" if self._c[3].currentIndex()==0 else "en"
         self.settings.hud_theme = self._c[4].currentText()
         self.settings.model_size = self._c[5].currentText()
+        self.settings.device = {"CUDA (GPU)":"cuda","CPU":"cpu","Auto":"auto"}.get(self._c[6].currentText(),"cuda")
         self.settings.punctuation = self.tog.isChecked()
         self.settings.save()
         self._lang = self.settings.ui_language

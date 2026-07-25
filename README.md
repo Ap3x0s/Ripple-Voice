@@ -43,7 +43,7 @@ pip install -r requirements.txt
 
 ```powershell
 # Через venv (рекомендуется)
-run.bat
+Ripple Voice.bat
 
 # Или вручную
 .venv\Scripts\python.exe main.py

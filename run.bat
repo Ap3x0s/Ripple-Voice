@@ -1,2 +1,2 @@
 @echo off
-C:\rv_venv\Scripts\python.exe "%~dp0main.py" %*
+"%~dp0.venv\Scripts\python.exe" "%~dp0main.py" %*

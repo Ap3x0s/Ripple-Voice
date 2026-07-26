@@ -49,7 +49,8 @@ class RippleVoiceApp:
         self.hud = create_hud(self.settings.hud_theme)
         print(f"HUD theme: {self.settings.hud_theme}")
         self.hotkey = HotkeyManager(
-            mode=TriggerMode(self.settings.trigger_mode)
+            mode=TriggerMode(self.settings.trigger_mode),
+            hotkey=self.settings.hotkey,
         )
         self.tray = TrayIcon(str(ASSETS_DIR / "Applogo.png"))
         self._running = False
@@ -114,7 +115,9 @@ class RippleVoiceApp:
         self._cmd_timer.timeout.connect(self._process_commands)
         self._cmd_timer.start(16)
 
-        print("Ripple Voice: готово! Нажмите Right Ctrl для записи.")
+        hotkey_names = {"ctrl_l": "Left Ctrl", "ctrl_r": "Right Ctrl", "alt_r": "Right Alt"}
+        hotkey_display = hotkey_names.get(self.settings.hotkey, "Right Ctrl")
+        print(f"Ripple Voice: готово! Нажмите {hotkey_display} для записи.")
         print("Ripple Voice: Right Alt+P — открыть настройки.")
         self._cmd("state", HudState.IDLE)
 
@@ -182,7 +185,7 @@ class RippleVoiceApp:
         if old_hotkey != new_settings.hotkey or old_mode != new_settings.trigger_mode:
             print(f"[CFG] hotkey changed: {old_hotkey}→{new_settings.hotkey}, mode: {old_mode}→{new_settings.trigger_mode}")
             self.hotkey.stop()
-            self.hotkey = HotkeyManager(mode=TriggerMode(new_settings.trigger_mode))
+            self.hotkey = HotkeyManager(mode=TriggerMode(new_settings.trigger_mode), hotkey=new_settings.hotkey)
             self.hotkey.on_start = self._on_record_start
             self.hotkey.on_stop = self._on_record_stop
             self.hotkey.on_cancel = self._on_record_cancel

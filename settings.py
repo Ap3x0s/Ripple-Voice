@@ -24,7 +24,7 @@ class Settings:
     def load(self) -> "Settings":
         """Load settings from JSON file, create with defaults if missing."""
         if SETTINGS_FILE.exists():
-            with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
+            with open(SETTINGS_FILE, "r", encoding="utf-8-sig") as f:
                 data = json.load(f)
             for key, value in data.items():
                 if hasattr(self, key):

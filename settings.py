@@ -12,7 +12,7 @@ SETTINGS_FILE = SETTINGS_DIR / "settings.json"
 class Settings:
     model_size: str = "medium"
     language: str = "auto"
-    ui_language: str = "ru"  # "ru" or "en" — interface language
+    ui_language: str = "en"  # "en" or "ru" — interface language
     trigger_mode: str = "hold"  # "hold" or "toggle"
     punctuation: bool = True
     hud_position: str = "center"  # "center" or "cursor"

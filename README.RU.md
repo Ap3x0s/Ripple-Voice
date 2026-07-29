@@ -1,4 +1,4 @@
-# Ripple Voice <a href="README.md" style="float:right;font-size:0.5rem;font-weight:normal;color:inherit;">English</a>
+# Ripple Voice <a href="README.md" style="float:right;font-size:0.5em;font-weight:normal;text-decoration:none;">English · Русский</a>
 
 Голосовой ввод для Windows. Нажал клавишу — сказал — текст вставлен. Your voice, in flow.
 

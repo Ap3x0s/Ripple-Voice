@@ -1,6 +1,4 @@
-# Ripple Voice
-
-**English** · [Русский](README.RU.md)
+# Ripple Voice <a href="README.RU.md" style="float:right;font-size:0.5rem;font-weight:normal;color:inherit;">Русский</a>
 
 Voice dictation for Windows. Press — speak — text inserted. Your voice, in flow.
 

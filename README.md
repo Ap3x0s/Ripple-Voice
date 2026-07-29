@@ -1,5 +1,7 @@
 # Ripple Voice
 
+**English** · [Русский](README.RU.md)
+
 Voice dictation for Windows. Press — speak — text inserted. Your voice, in flow.
 
 ![Ripple Voice](topic.gif)

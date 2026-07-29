@@ -1,5 +1,7 @@
 # Ripple Voice
 
+[English](README.md) · **Русский**
+
 Голосовой ввод для Windows. Нажал клавишу — сказал — текст вставлен. Your voice, in flow.
 
 ![Ripple Voice](topic.gif)

@@ -47,7 +47,7 @@ class HudWidget(QWidget):
     H = 52
     CORNER_R = 6  # sharp corners, not rounded
 
-    def __init__(self):
+    def __init__(self, hotkey: str = "ctrl_r"):
         super().__init__()
         self._state = HudState.HIDDEN
         self._rms = 0.0
@@ -64,6 +64,7 @@ class HudWidget(QWidget):
         self._wave_history = [0.0] * 48  # 1D waveform buffer
         self._corner_marks = True
         self._tick_count = 0
+        self._hotkey_label = self._hotkey_to_label(hotkey)
 
         # Monospace font
         self._font = QFont("Consolas", 13)
@@ -101,7 +102,7 @@ class HudWidget(QWidget):
         self._state = state
 
         if state == HudState.IDLE:
-            self._text = "[ RIGHT CTRL ]"
+            self._text = self._hotkey_label
             self.show()
             self.raise_()
 
@@ -126,6 +127,12 @@ class HudWidget(QWidget):
 
     def set_text(self, text: str):
         self._text = text
+
+    def set_hotkey(self, hotkey: str):
+        self._hotkey_label = self._hotkey_to_label(hotkey)
+
+    def _hotkey_to_label(self, hotkey: str) -> str:
+        return {"ctrl_r": "[ RIGHT CTRL ]", "ctrl_l": "[ LEFT CTRL ]", "alt_r": "[ RIGHT ALT ]"}.get(hotkey, "[ RIGHT CTRL ]")
 
     # ── Animation tick ───────────────────────────────────────────
 

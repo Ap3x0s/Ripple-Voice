@@ -51,7 +51,7 @@ class HudWidget(QWidget):
     H = 60
     CORNER_R = 30
 
-    def __init__(self):
+    def __init__(self, hotkey: str = "ctrl_r"):
         super().__init__()
         self._state = HudState.HIDDEN
         self._rms = 0.0
@@ -63,6 +63,7 @@ class HudWidget(QWidget):
         self._scale = 0.9
         self._glow_radius = 0.0
         self._success_flash = 0.0
+        self._hotkey_label = self._hotkey_to_label(hotkey)
 
         # Window setup
         self.setWindowFlags(
@@ -97,7 +98,7 @@ class HudWidget(QWidget):
         self._state = state
 
         if state == HudState.IDLE:
-            self._text = "Right Ctrl"
+            self._text = self._hotkey_label
             self.show()
             self.raise_()
             self.activateWindow()
@@ -122,6 +123,12 @@ class HudWidget(QWidget):
 
     def set_text(self, text: str):
         self._text = text
+
+    def set_hotkey(self, hotkey: str):
+        self._hotkey_label = self._hotkey_to_label(hotkey)
+
+    def _hotkey_to_label(self, hotkey: str) -> str:
+        return {"ctrl_r": "Right Ctrl", "ctrl_l": "Left Ctrl", "alt_r": "Right Alt"}.get(hotkey, "Right Ctrl")
 
     # ── Animation tick ───────────────────────────────────────────
 

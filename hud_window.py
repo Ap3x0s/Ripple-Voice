@@ -17,7 +17,7 @@ THEMES = {
 }
 
 
-def create_hud(theme: str = "google"):
+def create_hud(theme: str = "google", hotkey: str = "ctrl_r"):
     """Create HUD widget for the given theme.
 
     Themes:
@@ -27,7 +27,7 @@ def create_hud(theme: str = "google"):
         "hybrid_v2"  — ★ v1 bars + v1 shimmer + hybrid spring/glass/idle/success
         "vercel"     — sharp cyber
     """
-    return THEMES.get(theme, GoogleHud)()
+    return THEMES.get(theme, GoogleHud)(hotkey=hotkey)
 
 
 HudWidget = THEMES["hybrid_v2"]

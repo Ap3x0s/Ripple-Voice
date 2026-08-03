@@ -61,7 +61,7 @@ class HudWidget(QWidget):
     H = 72
     CORNER_R = 32
 
-    def __init__(self):
+    def __init__(self, hotkey: str = "ctrl_r"):
         super().__init__()
         self._state = HudState.HIDDEN
         self._rms = 0.0
@@ -74,6 +74,7 @@ class HudWidget(QWidget):
         self._border_pulse = 0.0
         self._rec_start = 0.0
         self._language = "AUTO"
+        self._hotkey_label = self._hotkey_to_label(hotkey)
 
         self._spr_sc = Spring(0.12, 0.65)
         self._spr_sc.set(0.85); self._spr_sc.target = 0.85
@@ -103,7 +104,7 @@ class HudWidget(QWidget):
             return
         self._state = state
         if state == HudState.IDLE:
-            self._text = "Right Ctrl"
+            self._text = self._hotkey_label
             self._spr_sc.target = 1.0
             self._spr_glow.target = 10.0
             self.show()
@@ -134,6 +135,12 @@ class HudWidget(QWidget):
 
     def set_language(self, lang: str):
         self._language = lang
+
+    def set_hotkey(self, hotkey: str):
+        self._hotkey_label = self._hotkey_to_label(hotkey)
+
+    def _hotkey_to_label(self, hotkey: str) -> str:
+        return {"ctrl_r": "Right Ctrl", "ctrl_l": "Left Ctrl", "alt_r": "Right Alt"}.get(hotkey, "Right Ctrl")
 
     def _tick(self):
         self._spr_sc.update()

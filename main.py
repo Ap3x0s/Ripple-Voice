@@ -46,7 +46,7 @@ class RippleVoiceApp:
         self.recorder = AudioRecorder()
         self.transcriber = Transcriber(model_size=self.settings.model_size, device=self.settings.device)
         self.inserter = TextInserter()
-        self.hud = create_hud(self.settings.hud_theme)
+        self.hud = create_hud(self.settings.hud_theme, hotkey=self.settings.hotkey)
         print(f"HUD theme: {self.settings.hud_theme}")
         self.hotkey = HotkeyManager(
             mode=TriggerMode(self.settings.trigger_mode),
@@ -191,12 +191,13 @@ class RippleVoiceApp:
             self.hotkey.on_cancel = self._on_record_cancel
             self.hotkey.on_settings = lambda: self._q.put(("open_settings",))
             self.hotkey.start()
+            self.hud.set_hotkey(new_settings.hotkey)
 
         # HUD theme change → recreate HUD
         if old_theme != new_settings.hud_theme:
             print(f"[CFG] HUD theme changed: {old_theme}→{new_settings.hud_theme}")
             self.hud.hide()
-            self.hud = create_hud(new_settings.hud_theme)
+            self.hud = create_hud(new_settings.hud_theme, hotkey=new_settings.hotkey)
 
         # Model or device change → reload in background
         if old_model != new_settings.model_size or old_device != new_settings.device:
